@@ -5,10 +5,7 @@
  */
 package com.utilidades;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
@@ -19,7 +16,7 @@ public class leerProperties
 {
     public static String leerArchivoPropiedades(String clave) throws IOException
     {
-         ResourceBundle resourceBundle = ResourceBundle.getBundle("propiedades"); // Propiedades.properties
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("propiedades"); // Propiedades.properties
         if (resourceBundle.containsKey(clave)) {
             return resourceBundle.getString(clave);
         }
