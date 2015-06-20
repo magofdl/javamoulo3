@@ -5,3 +5,16 @@
  */
 
 
+function validarCredenciales(formulario){
+    var nombreUsuario=formulario.txt_nombreusuario.value;
+    var contraseñaUsuario=formulario.txt_contraseña.value;
+    if (nombreUsuario=="" || contraseñaUsuario==""){
+        alert('Por favor ingrese sus credenciales');
+        return false;
+    }
+    else{
+        return true;
+    }
+    
+    
+}

@@ -13,8 +13,8 @@
         <title>Centro de educación continua</title>
         <link rel="shortcut icon" href="imagenes/ingreso.ico">
         <link rel="stylesheet" href="css/presentacion.css" type="text/css">
-        <link rel="stylesheet" href="css/textbox.css" type="text/css"
-        <script type="text/javascript" scr="javascript/validaciones.js" ></script>
+        <link rel="stylesheet" href="css/textbox.css" type="text/css">
+        <script type="text/javascript" src="javascript/validaciones.js" ></script>
     </head>
     <body>
         
@@ -24,7 +24,7 @@
         onsubmit: que pasa cuando se quiere enviar el formulario, se dispara por ejemplo al dar un click.
         --%>  
         <%-- --%>  
-        <form method="post" action=servlet_logeo" onsubmit="">
+        <form method="post" action="ServletLogin" onsubmit="return  validarCredenciales(this)">
             <center>
                 <table>
                     <tr>  <%-- fila --%>
