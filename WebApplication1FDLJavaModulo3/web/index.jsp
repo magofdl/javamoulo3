@@ -21,10 +21,56 @@
         <%--
         El request debe estar dentro del form. 
         action: el nombre del componente que va a recibir el request y la va procesar.
-        onsumit: que pasa cuando se quiere enviar el formulario, se dispara por ejemplo al dar un click.
-        --%>
+        onsubmit: que pasa cuando se quiere enviar el formulario, se dispara por ejemplo al dar un click.
+        --%>  
+        <%-- --%>  
         <form method="post" action=servlet_logeo" onsubmit="">
-            
+            <center>
+                <table>
+                    <tr>  <%-- fila --%>
+                        <td>  <%-- columna --%>
+                             <center>
+                                  <%-- <img src="imagenes/logoCEC.jpg" width="" height=""> en pixeles--%>  
+                                 <img src="imagenes/logoCEC.jpg">
+                             </center>
+                        </td>
+                    </tr>
+                    <tr>  
+                        <td>
+                            <center>
+                                <b>Centro de Educación Continua </b>  <%-- En negrilla --%>
+                            </center>
+                        </td>
+                    </tr>
+                </table>      
+            </center>
+            <center>
+                  <table>
+                      <tr>
+                          <td>
+                              <b>Nombre de usuario:</b>
+                          </td>
+                          <td>
+                              <input type="text" name="txt_nombreusuario" maxlength="20">
+                          </td>
+                      </tr> 
+                      <tr>
+                          <td>
+                              <b>Contraseña:</b>
+                          </td>
+                          <td>
+                              <input type="password" name="txt_contraseña" maxlength=30">
+                          </td>
+                      </tr> 
+                      <tr>
+                          <td colspan="2"><%--Fusionadas 2 columnas --%>
+                               <center>
+                                   <input type="submit" name="btn_validar" value="Ingresar">
+                                </center>
+                          </td>
+                      </tr>
+                  </table>
+             </center>
         </form>
             
         <%
