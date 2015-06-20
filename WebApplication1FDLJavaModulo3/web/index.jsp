@@ -59,7 +59,7 @@
                               <b>Contraseña:</b>
                           </td>
                           <td>
-                              <input type="password" name="txt_contraseña" maxlength=30">
+                              <input type="password" name="txt_clave" maxlength=30">
                           </td>
                       </tr> 
                       <tr>

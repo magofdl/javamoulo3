@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -18,22 +19,11 @@ public class leerProperties
 {
     public static String leerArchivoPropiedades(String clave) throws IOException
     {
-        String valorPropiedad="";
-        int i=0;
-        Properties propiedades=new Properties();
-        propiedades.load(new FileInputStream("src/propiedades.properties"));
-        Object objeto;
-        for(Enumeration e=propiedades.keys(); e.hasMoreElements();)
-        {
-            objeto=e.nextElement();
-            if(clave.compareTo(objeto.toString())==0)
-            {
-                valorPropiedad=propiedades.getProperty(objeto.toString());
-                break;
-            }
-            i++;
+         ResourceBundle resourceBundle = ResourceBundle.getBundle("propiedades"); // Propiedades.properties
+        if (resourceBundle.containsKey(clave)) {
+            return resourceBundle.getString(clave);
         }
-        return valorPropiedad;
+        return null;
     }
     
 }

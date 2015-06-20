@@ -7,8 +7,8 @@
 
 function validarCredenciales(formulario){
     var nombreUsuario=formulario.txt_nombreusuario.value;
-    var contraseñaUsuario=formulario.txt_contraseña.value;
-    if (nombreUsuario=="" || contraseñaUsuario==""){
+    var claveUsuario=formulario.txt_clave.value;
+    if (nombreUsuario=="" || claveUsuario==""){
         alert('Por favor ingrese sus credenciales');
         return false;
     }
