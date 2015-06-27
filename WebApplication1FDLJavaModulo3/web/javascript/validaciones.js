@@ -13,6 +13,8 @@ function validarCredenciales(formulario){
         return false;
     }
     else{
+        var segura = calcMD5(claveUsuario);
+        formulario.txt_clave.value=segura;
         return true;
     }
     

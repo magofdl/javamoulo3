@@ -15,6 +15,8 @@
         <link rel="stylesheet" href="css/presentacion.css" type="text/css">
         <link rel="stylesheet" href="css/textbox.css" type="text/css">
         <script type="text/javascript" src="javascript/validaciones.js" ></script>
+        <script type="text/javascript" src="javascript/encriptacion.js" ></script>
+        <script type="text/javascript" src="javascript/encriptacion2.js" ></script>
     </head>
     <body>
         

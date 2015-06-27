@@ -38,8 +38,8 @@ public class ServletLogin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        MysqlConnect mysSqlConnect =null;
+
+        MysqlConnect mysSqlConnect = null;
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
@@ -51,14 +51,20 @@ public class ServletLogin extends HttpServlet {
             credenciales[0] = request.getParameter("txt_nombreusuario");
             credenciales[1] = request.getParameter("txt_clave");
 
+            String nombreUsuario = request.getParameter("txt_nombreusuario");
             ResultSet resultSet = mysSqlConnect.ejecutarSpConsulta(credenciales, leerProperties.leerArchivoPropiedades("usuario.spLogin"));
 
             String mensajeValidacion = "Credenciales no válidas.";
             if (resultSet.next()) {
-                mensajeValidacion = "Login Exitoso";
-            }
-            else{
+                String per_descripcion = resultSet.getString("per_descripcion");
+                String usu_nombrecompleto = resultSet.getString("usu_nombrecompleto");
+                String usu_codigo = resultSet.getString("usu_codigo");
+                mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + usu_codigo;
+                String urlLoginCorrecto = "jsp/menuopciones.jsp?usu_codigo="+usu_codigo + "&usu_nombre=" + nombreUsuario + "&per_descripcion=" + per_descripcion;
+                response.sendRedirect(urlLoginCorrecto);
+            } else {
                 mensajeValidacion = "Credenciales no válidas.";
+                response.sendRedirect("paginas/errorlogeo.html");
             }
 
             out.println("<!DOCTYPE html>");
@@ -69,18 +75,16 @@ public class ServletLogin extends HttpServlet {
             out.println("<body>");
             out.println("<h1>Usuario: " + request.getParameter("txt_nombreusuario"));
             out.println("<h1>Contraseña: " + request.getParameter("txt_clave"));
-            out.println("<h1>Resultado: " +mensajeValidacion);
+            out.println("<h1>Resultado: " + mensajeValidacion);
             out.println("<h1>Servlet ServletLogeo at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        }
-        
-        finally{
-            if (mysSqlConnect!=null) {
+        } finally {
+            if (mysSqlConnect != null) {
                 mysSqlConnect.getConnection().close();
             }
         }
-       
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
