@@ -1,4 +1,8 @@
 
+<%@page import="java.util.logging.Level"%>
+<%@page import="java.util.logging.Logger"%>
+<%@page import="java.net.URLDecoder"%>
+<%@page import="com.negocio.AESManagerExternal"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.datos.*"%>
 <%@page import="java.net.URLEncoder"%>
@@ -13,7 +17,21 @@
     <%
         String codUsuario=request.getParameter("usu_codigo");
         String nomUsuario=request.getParameter("usu_nombre");        
-        String perfilUsuario=request.getParameter("per_descripcion");              
+        String perfilUsuario=request.getParameter("per_descripcion");
+        String per_codigo=request.getParameter("per_codigo");
+        
+        codUsuario = URLDecoder.decode(codUsuario, "UTF-8");
+        per_codigo = URLDecoder.decode(per_codigo, "UTF-8");
+        
+        
+        
+         AESManagerExternal aesManager = new AESManagerExternal();
+         aesManager.initialiseCipher();
+         per_codigo = aesManager.decryptText(per_codigo);
+         codUsuario = aesManager.decryptText(codUsuario);
+         
+          Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_codigo "+per_codigo);
+         
         
     %>        
 </head>
@@ -96,7 +114,7 @@
 
         <li class="nivel1"><a href="#" class="nivel1">SEGURIDAD</a>
                 <ul class="nivel2">
-                    <%if(perfilUsuario.equals("1"))
+                    <%if(per_codigo.equals("PER00001"))
                      {
                     %>
                         <li class="nivel2"><a class="nivel2" href="reseteo_clave.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">RESETEO CLAVE</a>

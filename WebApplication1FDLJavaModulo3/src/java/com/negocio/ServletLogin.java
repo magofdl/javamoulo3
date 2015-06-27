@@ -9,10 +9,14 @@ import com.datos.MysqlConnect;
 import com.utilidades.leerProperties;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +40,7 @@ public class ServletLogin extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException {
+            throws ServletException, IOException, ClassNotFoundException, InstantiationException, SQLException, IllegalAccessException, NoSuchPaddingException, Exception {
         response.setContentType("text/html;charset=UTF-8");
 
         MysqlConnect mysSqlConnect = null;
@@ -59,8 +63,29 @@ public class ServletLogin extends HttpServlet {
                 String per_descripcion = resultSet.getString("per_descripcion");
                 String usu_nombrecompleto = resultSet.getString("usu_nombrecompleto");
                 String usu_codigo = resultSet.getString("usu_codigo");
+                String per_codigo = resultSet.getString("per_codigo");
+
+                // First Step : Create AESManagerExternal with default constructor as shown below
+                AESManagerExternal aesManager = new AESManagerExternal();
+                // Second  Step : call default initialiseCipher method that initialises the cipher objects as per the config file
+                aesManager.initialiseCipher();
+                // call encryptText to get the encrypted text
+                usu_codigo = aesManager.encryptText(usu_codigo);
+                per_codigo = aesManager.encryptText(per_codigo);
+
+                usu_codigo=URLEncoder.encode(usu_codigo, "UTF-8");
+                per_codigo=URLEncoder.encode(per_codigo, "UTF-8");
+                
                 mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + usu_codigo;
-                String urlLoginCorrecto = "jsp/menuopciones.jsp?usu_codigo="+usu_codigo + "&usu_nombre=" + nombreUsuario + "&per_descripcion=" + per_descripcion;
+                String urlLoginCorrecto = "jsp/menuopciones.jsp?usu_codigo=" + usu_codigo + "&usu_nombre=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
+
+
+//                URL url = new URL(urlLoginCorrecto);
+//                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
+
+                
+                
+                
                 response.sendRedirect(urlLoginCorrecto);
             } else {
                 mensajeValidacion = "Credenciales no válidas.";
@@ -109,6 +134,8 @@ public class ServletLogin extends HttpServlet {
             Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -132,6 +159,8 @@ public class ServletLogin extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
+            Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(ServletLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
