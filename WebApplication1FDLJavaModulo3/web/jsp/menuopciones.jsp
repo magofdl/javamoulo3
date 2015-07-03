@@ -25,10 +25,10 @@
         
         
         
-         AESManagerExternal aesManager = new AESManagerExternal();
-         aesManager.initialiseCipher();
-         per_codigo = aesManager.decryptText(per_codigo);
-         codUsuario = aesManager.decryptText(codUsuario);
+         //AESManagerExternal aesManager = new AESManagerExternal();
+         //aesManager.initialiseCipher();
+         //per_codigo = aesManager.decryptText(per_codigo);
+         //codUsuario = aesManager.decryptText(codUsuario);
          
          Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_codigo "+per_codigo);
          

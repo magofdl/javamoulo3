@@ -64,29 +64,61 @@ public class ServletLogin extends HttpServlet {
                 String usu_nombrecompleto = resultSet.getString("usu_nombrecompleto");
                 String usu_codigo = resultSet.getString("usu_codigo");
                 String per_codigo = resultSet.getString("per_codigo");
+                
+                 
+                int activo=Integer.valueOf(resultSet.getString("usu_activo"));
+                int claveTemporal=Integer.valueOf(resultSet.getString("usu_clave_temporal"));
+                 
+                boolean usu_activo = false;
+                
+                if(activo==1){
+                    usu_activo=true;
+                }
+                
+                boolean usu_clave_temporal = false;
+                
+                
+                if(claveTemporal==1){
+                    usu_clave_temporal=true;
+                }
+                
+                
+                if (usu_activo==true){
+                    Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_activo==true ");
+
+                    if (usu_clave_temporal == true) {
+                        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_clave_temporal==true ");
+                        usu_codigo = URLEncoder.encode(usu_codigo, "UTF-8");
+                        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_codigo "+usu_codigo);
+                        String urlCambioClave = "jsp/cambioclave.jsp?usu_codigo=" + usu_codigo;
+                        response.sendRedirect(urlCambioClave);
+                    } else {
+                        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_clave_temporal==false ");
+                        usu_codigo = URLEncoder.encode(usu_codigo, "UTF-8");
+                        per_codigo = URLEncoder.encode(per_codigo, "UTF-8");
+
+                        mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + usu_codigo;
+                        String urlLoginCorrecto = "jsp/menuopciones.jsp?usu_codigo=" + usu_codigo + "&usu_nombre=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
+                        response.sendRedirect(urlLoginCorrecto);
+                    }
+                }
+                else{
+                    Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_activo==false " + resultSet.getString("usu_activo"));
+                    response.sendRedirect("paginas/errorusuarioactivo.html");
+                }
+                
+                
+                        
 
                 // First Step : Create AESManagerExternal with default constructor as shown below
-                AESManagerExternal aesManager = new AESManagerExternal();
-                // Second  Step : call default initialiseCipher method that initialises the cipher objects as per the config file
-                aesManager.initialiseCipher();
+//                AESManagerExternal aesManager = new AESManagerExternal();
+//                // Second  Step : call default initialiseCipher method that initialises the cipher objects as per the config file
+//                aesManager.initialiseCipher();
                 // call encryptText to get the encrypted text
-                usu_codigo = aesManager.encryptText(usu_codigo);
-                per_codigo = aesManager.encryptText(per_codigo);
+//                usu_codigo = aesManager.encryptText(usu_codigo);
+//                per_codigo = aesManager.encryptText(per_codigo);
 
-                usu_codigo=URLEncoder.encode(usu_codigo, "UTF-8");
-                per_codigo=URLEncoder.encode(per_codigo, "UTF-8");
-                
-                mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + usu_codigo;
-                String urlLoginCorrecto = "jsp/menuopciones.jsp?usu_codigo=" + usu_codigo + "&usu_nombre=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
-
-
-//                URL url = new URL(urlLoginCorrecto);
-//                URI uri = new URI(url.getProtocol(), url.getUserInfo(), url.getHost(), url.getPort(), url.getPath(), url.getQuery(), url.getRef());
-
-                
-                
-                
-                response.sendRedirect(urlLoginCorrecto);
+               
             } else {
                 mensajeValidacion = "Credenciales no válidas.";
                 response.sendRedirect("paginas/errorlogeo.html");
@@ -105,7 +137,7 @@ public class ServletLogin extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         } finally {
-            if (mysSqlConnect != null) {
+            if (mysSqlConnect.getConnection() != null) {
                 mysSqlConnect.getConnection().close();
             }
         }
