@@ -62,7 +62,7 @@ public class ServletLogin extends HttpServlet {
             if (resultSet.next()) {
                 String per_descripcion = resultSet.getString("per_descripcion");
                 String usu_nombrecompleto = resultSet.getString("usu_nombrecompleto");
-                String usu_codigo = resultSet.getString("usu_codigo");
+                String codUsuario = resultSet.getString("usu_codigo");
                 String per_codigo = resultSet.getString("per_codigo");
                 
                  
@@ -88,17 +88,17 @@ public class ServletLogin extends HttpServlet {
 
                     if (usu_clave_temporal == true) {
                         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_clave_temporal==true ");
-                        usu_codigo = URLEncoder.encode(usu_codigo, "UTF-8");
-                        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_codigo "+usu_codigo);
-                        String urlCambioClave = "jsp/cambioclave.jsp?codUsuario=" + usu_codigo;
+                        codUsuario = URLEncoder.encode(codUsuario, "UTF-8");
+                        Logger.getLogger(this.getClass().getName()).log(Level.INFO, "codUsuario "+codUsuario);
+                        String urlCambioClave = "jsp/cambioclave.jsp?codUsuario="+codUsuario;
                         response.sendRedirect(urlCambioClave);
                     } else {
                         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_clave_temporal==false ");
-                        usu_codigo = URLEncoder.encode(usu_codigo, "UTF-8");
+                        codUsuario = URLEncoder.encode(codUsuario, "UTF-8");
                         per_codigo = URLEncoder.encode(per_codigo, "UTF-8");
 
-                        mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + usu_codigo;
-                        String urlLoginCorrecto = "jsp/menuopciones.jsp?codUsuario=" + usu_codigo + "&nomUsuario=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
+                        mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + codUsuario;
+                        String urlLoginCorrecto = "jsp/menuopciones.jsp?codUsuario=" + codUsuario + "&nomUsuario=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
                         response.sendRedirect(urlLoginCorrecto);
                     }
                 }

@@ -89,14 +89,14 @@
                         }
                   %>
                   </Select>                             
-                          
+                  <tr>        
                   <td >
                       <center><input type="submit" name="btn_enviar"  style="font-weight: bold;" value="INGRESAR " ></center>
                   </td>                               
                   <td>
                      <center><a href="menuopciones.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_descripcion=<%=perfilUsuario%>&per_codigo=<%=per_codigo%>"><img src="../imagenes/menuprincipal.jpg"></a></center>
                   <td>                            
-                    
+                      </tr>  
                     <tr><td><br></td><td><br></td></tr>                                        
                 </TABLE>
                         

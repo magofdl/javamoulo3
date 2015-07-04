@@ -52,7 +52,7 @@ public class ServletCambioClave extends HttpServlet {
             credenciales[1] = request.getParameter("txt_claveactual");
             credenciales[2] = request.getParameter("txt_clavenueva");
 
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_codigo: {0}", request.getParameter("usu_codigo"));
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "codUsuario: {0}", request.getParameter("codUsuario"));
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "clave actual: {0}", request.getParameter("txt_claveactual"));
             Logger.getLogger(this.getClass().getName()).log(Level.INFO, "clave nueva: {0}", request.getParameter("txt_clavenueva"));
 
@@ -63,15 +63,37 @@ public class ServletCambioClave extends HttpServlet {
                 String resultaCambioClave = resultSet.getString("resultado");
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "resultaCambioClave: {0}", resultaCambioClave);
                 if (resultaCambioClave.equalsIgnoreCase("1") == true) {//cambiada correctamente la contraseña
-                    mensajeValidacion = "Contraseña cambiada exitosamente";
-                    String urlLoginCorrecto = "index.jsp";
-                    response.sendRedirect(urlLoginCorrecto);
+//                    mensajeValidacion = "Contraseña cambiada exitosamente";
+//                    String urlLoginCorrecto = "index.jsp";
+//                    response.sendRedirect(urlLoginCorrecto);
+                    out.println("<!DOCTYPE html>");
+                    out.println("<html>");
+                    out.println("<head>");
+                    out.println("<META HTTP-EQUIV='REFRESH' CONTENT='1;URL='index.jsp'>");
+                    out.println("<script type='text/javascript'>alert('Contraseña cambiada exitosamente');</script>");
+                    out.println("</head>");
+                    out.println("<body>");
+                    out.println("</body>");
+                    out.println("</html>");
+                    
+                    
                 } else {
                     mensajeValidacion = "Por favor verifique su contraseña";
 
                     request.setAttribute("mensajeValidacion", mensajeValidacion);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/jsp/cambioclave.jsp");
                     dispatcher.forward(request, response);
+                    
+                    
+//                     out.println("<!DOCTYPE html>");
+//                    out.println("<html>");
+//                    out.println("<head>");
+//                    out.println("<META HTTP-EQUIV='REFRESH' CONTENT='1;URL='/jsp/cambioclave.jsp'>");
+//                    out.println("<script type='text/javascript'>alert('Credenciales invalidas');</script>");
+//                    out.println("</head>");
+//                    out.println("<body>");
+//                    out.println("</body>");
+//                    out.println("</html>");
                 }
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.INFO, "sin resultado sp ");
@@ -80,15 +102,15 @@ public class ServletCambioClave extends HttpServlet {
 
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletCambioClave</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletCambioClave at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+//            out.println("<!DOCTYPE html>");
+//            out.println("<html>");
+//            out.println("<head>");
+//            out.println("<META HTTP-EQUIV='REFRESH' CONTENT='1;URL=index.jsp'>");
+//            out.println("<script type='text/javascript'>alert('Contraseña cambiada exitosamente');</script>");
+//            out.println("</head>");
+//            out.println("<body>");
+//            out.println("</body>");
+//            out.println("</html>");
         }
     }
 

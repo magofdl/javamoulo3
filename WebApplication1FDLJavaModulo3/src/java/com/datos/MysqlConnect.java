@@ -4,6 +4,8 @@ package com.datos;
 import com.utilidades.leerProperties;
 import java.io.IOException;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class MysqlConnect
@@ -56,6 +58,7 @@ public class MysqlConnect
             {
                 cs.setString(i+1, args[i]);
             }
+            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "sp {0}", call);
             ResultSet resultado=cs.executeQuery();
             return resultado;
     }

@@ -28,7 +28,7 @@
 
 
 </body>
-<% String usu_codigo=request.getParameter("usu_codigo"); %>
+<% String codUsuario=request.getParameter("codUsuario"); %>
 <% String mensajeValidacion=request.getParameter("mensajeValidacion"); %>
 
 
@@ -69,12 +69,13 @@
             </tr>
         </table>
     </center>
-    <input type="hidden" name="usu_codigo" value="<%=usu_codigo%>" />
+    <input type="hidden" name="codUsuario" value="<%=codUsuario%>" />
 </form>
 <script type="text/javascript">
+
         var mensajeValidacionAux = '<%=mensajeValidacion%>';
         
-       if (if ('null' != mensajeValidacionAux)) {
+       if (mensajeValidacionAux !='null') {
            function alertName() {
                 alert(mensajeValidacionAux);
             } 
