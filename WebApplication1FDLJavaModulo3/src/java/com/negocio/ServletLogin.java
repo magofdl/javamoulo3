@@ -90,7 +90,7 @@ public class ServletLogin extends HttpServlet {
                         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_clave_temporal==true ");
                         usu_codigo = URLEncoder.encode(usu_codigo, "UTF-8");
                         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_codigo "+usu_codigo);
-                        String urlCambioClave = "jsp/cambioclave.jsp?usu_codigo=" + usu_codigo;
+                        String urlCambioClave = "jsp/cambioclave.jsp?codUsuario=" + usu_codigo;
                         response.sendRedirect(urlCambioClave);
                     } else {
                         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "usu_clave_temporal==false ");
@@ -98,7 +98,7 @@ public class ServletLogin extends HttpServlet {
                         per_codigo = URLEncoder.encode(per_codigo, "UTF-8");
 
                         mensajeValidacion = "Login Exitoso" + " Perfil: " + per_descripcion + " Nombre: " + usu_nombrecompleto + " Código: " + usu_codigo;
-                        String urlLoginCorrecto = "jsp/menuopciones.jsp?usu_codigo=" + usu_codigo + "&usu_nombre=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
+                        String urlLoginCorrecto = "jsp/menuopciones.jsp?codUsuario=" + usu_codigo + "&nomUsuario=" + nombreUsuario + "&per_descripcion=" + per_descripcion + "&per_codigo=" + per_codigo;
                         response.sendRedirect(urlLoginCorrecto);
                     }
                 }

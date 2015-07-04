@@ -48,7 +48,7 @@ public class ServletCambioClave extends HttpServlet {
             mysSqlConnect.efectuarConexionDB();
 
             String[] credenciales = new String[3];
-            credenciales[0] = request.getParameter("usu_codigo");
+            credenciales[0] = request.getParameter("codUsuario");
             credenciales[1] = request.getParameter("txt_claveactual");
             credenciales[2] = request.getParameter("txt_clavenueva");
 

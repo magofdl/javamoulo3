@@ -15,21 +15,27 @@
     <link rel="stylesheet" href="../css/menu-12.css" type="text/css" />
     <link rel="shortcut icon" href="../imagenes/ingreso.ico">  
     <%
-        String codUsuario=request.getParameter("usu_codigo");
-        String nomUsuario=request.getParameter("usu_nombre");        
-        String perfilUsuario=request.getParameter("per_descripcion");
+        String codUsuario=request.getParameter("codUsuario");
+        String nomUsuario=request.getParameter("nomUsuario");        
+        String per_descripcion=request.getParameter("per_descripcion");
         String per_codigo=request.getParameter("per_codigo");
+
+        if (codUsuario!=null){
+             codUsuario = URLDecoder.decode(codUsuario, "UTF-8");
+        }
         
-        codUsuario = URLDecoder.decode(codUsuario, "UTF-8");
-        per_codigo = URLDecoder.decode(per_codigo, "UTF-8");
-        
-        
-        
+        if (per_codigo !=null){
+             per_codigo = URLDecoder.decode(per_codigo, "UTF-8");
+        }
+
          //AESManagerExternal aesManager = new AESManagerExternal();
          //aesManager.initialiseCipher();
          //per_codigo = aesManager.decryptText(per_codigo);
          //codUsuario = aesManager.decryptText(codUsuario);
-         
+        
+         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "codUsuario "+codUsuario);
+         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "nomUsuario "+nomUsuario);
+         Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_descripcion "+per_descripcion);
          Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_codigo "+per_codigo);
          
         
@@ -52,7 +58,7 @@
                  </tr>                    
                  <tr>
                      <td>
-                        <FONT FACE="verdana" SIZE="2"><%=perfilUsuario%></FONT>  
+                        <FONT FACE="verdana" SIZE="2"><%=per_descripcion%></FONT>  
                      </td>
                  </tr>
                      <%--
@@ -75,17 +81,17 @@
                                 <!--[if lte IE 6]><a href="#" class="nivel2ie">Opción 2.3 »<table class="falsa"><tr><td><![endif]-->
                      
                                 <ul class="nivel3">
-                                        <li><a class="primera" href="consulta_proyecto.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">CONSULTA DE PROYECTO</a></li>
-                                        <li><a class="primera" href="ingreso_proyecto.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">INGRESO DE PROYECTO</a></li>                                        
-                                        <li><a class="primera" href="ingreso_actividades.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">INGRESO DE ACTIVIDADES</a></li>
-                                        <li><a class="primera" href="ingreso_recursos.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">INGRESO DE RECURSOS</a></li>
+                                        <li><a class="primera" href="consulta_proyecto.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">CONSULTA DE PROYECTO</a></li>
+                                        <li><a class="primera" href="ingreso_proyecto.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">INGRESO DE PROYECTO</a></li>                                        
+                                        <li><a class="primera" href="ingreso_actividades.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">INGRESO DE ACTIVIDADES</a></li>
+                                        <li><a class="primera" href="ingreso_recursos.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">INGRESO DE RECURSOS</a></li>
                                 </ul>
                         </li>                       
                         <li class="nivel2"><a class="nivel2" href="#">PERSONAL»»»»</a>
                                 <!--[if lte IE 6]><a href="#" class="nivel2ie">Opción 2.3 »<table class="falsa"><tr><td><![endif]-->
                                 <ul class="nivel3">
-                                       <li><a class="primera" href="ingreso_personal.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">INDICADOR CUANTITATIVO</a></li>
-                                        <li><a class="primera" href="consulta_personal.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">INDICADOR CUALITATIVO</a></li>								
+                                       <li><a class="primera" href="ingreso_personal.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">INDICADOR CUANTITATIVO</a></li>
+                                        <li><a class="primera" href="consulta_personal.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">INDICADOR CUALITATIVO</a></li>								
                                 </ul>
                         </li>                           
                         
@@ -94,7 +100,7 @@
                                 
           <li class="nivel1"><a href="#" class="nivel1">SEGUIMIENTO</a>
                               <ul class="nivel2">
-                        <li class="nivel2"><a class="nivel2" href="ingreso_seguimiento.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">SEGUIMIENTO ACTIVIDADES</a>
+                        <li class="nivel2"><a class="nivel2" href="ingreso_seguimiento.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">SEGUIMIENTO ACTIVIDADES</a>
                         </li>
                        
               
@@ -105,7 +111,7 @@
                         
           <li class="nivel1"><a href="#" class="nivel1">EVALUACION</a>
                               <ul class="nivel2">
-                        <li class="nivel2"><a class="nivel2" href="ingreso_evaluacion.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">EVALUACION DE ACTIVIDADES</a>
+                        <li class="nivel2"><a class="nivel2" href="ingreso_evaluacion.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">EVALUACION DE ACTIVIDADES</a>
                         </li>
                        
               
@@ -117,11 +123,11 @@
                     <%if(per_codigo.equals("PER00001"))
                      {
                     %>
-                        <li class="nivel2"><a class="nivel2" href="reseteo_clave.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">RESETEO CLAVE</a>
+                        <li class="nivel2"><a class="nivel2" href="reseteo_clave.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">RESETEO CLAVE</a>
                         </li>
-                        <li class="nivel2"><a class="nivel2" href="desactiva_usuario.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">DESACTIVAR USUARIO</a>
+                        <li class="nivel2"><a class="nivel2" href="desactiva_usuario.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">DESACTIVAR USUARIO</a>
                         </li>                        
-                        <li class="nivel2"><a class="nivel2" href="activa_usuario.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>">ACTIVAR USUARIO</a>
+                        <li class="nivel2"><a class="nivel2" href="activa_usuario.jsp?codUsuario=<%=codUsuario%>&nomUsuario=<%=nomUsuario%>&per_codigo=<%=per_codigo%>&per_descripcion=<%=per_descripcion%>">ACTIVAR USUARIO</a>
                         </li>                        
                         
                      <%

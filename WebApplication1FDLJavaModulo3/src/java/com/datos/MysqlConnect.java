@@ -84,4 +84,12 @@ public class MysqlConnect
             stmt.execute();            
             stmt.close();
       }
+    
+       public ResultSet ejecutarSpConsultasp(String store_name) throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException
+      {                      
+            String call="{call "+store_name+"( )}";            
+            CallableStatement cs = connection.prepareCall(call);
+            ResultSet resultado=cs.executeQuery();
+            return resultado;
+      }
 }
