@@ -4,6 +4,9 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.negocio.Proveedor</class>
     <class>com.negocio.Producto</class>
+    <class>com.negocio.Personal</class>
+    <class>com.negocio.Proyecto</class>
+    <class>com.negocio.Catalogo</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://173.194.245.230:3306/mabelModulo3?zeroDateTimeBehavior=convertToNull"/>

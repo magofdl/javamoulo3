@@ -23,30 +23,24 @@ public class Prueba {
     public static void main(String[] args) {
         
         EntityManagerFactory factory=Persistence.createEntityManagerFactory("WebApplication1FDLJavaModulo3PU", System.getProperties());
-        
-        
-        
         EntityManager em = factory.createEntityManager();
 
-       
-        
-
-      
         ProveedorJpaController  proveedorJpaController=new ProveedorJpaController(factory);
         Proveedor proveedor= new Proveedor();
         
-        proveedor.setPrvCodigo("PRV004");
+        proveedor.setPrvCodigo("PRV006");
         proveedor.setPrvDireccion("Lugo");
         proveedor.setPrvTelefono("3227398");
         proveedor.setPrvNombre("Laboratorio ARM");
         proveedor.setPrvCelular("0987299095");
         
         try {
-//            proveedorJpaController.create(proveedor);
-                    em.getTransaction().begin();
-                    em.persist(proveedor);
-                    em.getTransaction().commit();
-                    em.close();
+            proveedorJpaController.create(proveedor);
+//            em.getTransaction().begin();
+//            em.persist(proveedor);
+//            em.getTransaction().commit();
+//            em.close();
+            factory.close();
             Logger.getLogger(Prueba.class.getName()).log(Level.INFO, "acabo", "acabo insertar");
         } catch (Exception ex) {
             Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);

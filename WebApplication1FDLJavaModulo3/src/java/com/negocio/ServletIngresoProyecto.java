@@ -5,14 +5,23 @@
  */
 package com.negocio;
 
+import com.controladores.CatalogoJpaController;
+import com.controladores.PersonalJpaController;
+import com.controladores.ProveedorJpaController;
+import com.controladores.ProyectoJpaController;
 import com.datos.MysqlConnect;
 import com.utilidades.leerProperties;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,37 +45,68 @@ public class ServletIngresoProyecto extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+            throws ServletException, IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         MysqlConnect mysSqlConnect = null;
 
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
 
-            mysSqlConnect = new MysqlConnect();
-            mysSqlConnect.efectuarConexionDB();
-
+            boolean insertUsingJPA=true;
+            
             String codUsuario = request.getParameter("codUsuario");
             String nomUsuario = request.getParameter("nomUsuario");
             String per_codigo = request.getParameter("per_codigo");
             String per_descripcion = request.getParameter("per_descripcion");
 
-            String[] parametrosIngresoProyecto = new String[5];
-            parametrosIngresoProyecto[0] = request.getParameter("txt_codigo");
-            parametrosIngresoProyecto[1] = request.getParameter("txt_nombre");
-            parametrosIngresoProyecto[2] = request.getParameter("txt_observaciones");
-            parametrosIngresoProyecto[3] = request.getParameter("cmb_responsable");
-            parametrosIngresoProyecto[4] = request.getParameter("cmb_catalogo");
+            if (insertUsingJPA=false) {
+                mysSqlConnect = new MysqlConnect();
+                mysSqlConnect.efectuarConexionDB();
 
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "codUsuario: {0}", request.getParameter("codUsuario"));
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "nomUsuario: {0}", request.getParameter("nomUsuario"));
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_codigo: {0}", request.getParameter("per_codigo"));
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_descripcion: {0}", request.getParameter("per_descripcion"));
+              
+
+                String[] parametrosIngresoProyecto = new String[5];
+                parametrosIngresoProyecto[0] = request.getParameter("txt_codigo");
+                parametrosIngresoProyecto[1] = request.getParameter("txt_nombre");
+                parametrosIngresoProyecto[2] = request.getParameter("txt_observaciones");
+                parametrosIngresoProyecto[3] = request.getParameter("cmb_responsable");
+                parametrosIngresoProyecto[4] = request.getParameter("cmb_catalogo");
+
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "codUsuario: {0}", request.getParameter("codUsuario"));
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "nomUsuario: {0}", request.getParameter("nomUsuario"));
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_codigo: {0}", request.getParameter("per_codigo"));
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "per_descripcion: {0}", request.getParameter("per_descripcion"));
+
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "cmb_responsable: {0}", request.getParameter("cmb_responsable"));
+                Logger.getLogger(this.getClass().getName()).log(Level.INFO, "cmb_catalogo: {0}", request.getParameter("cmb_catalogo"));
+
+                mysSqlConnect.ejecutarSP(parametrosIngresoProyecto, leerProperties.leerArchivoPropiedades("proyecto.spIngresoProyecto"));
+            }
+            else{
+                EntityManagerFactory factory = Persistence.createEntityManagerFactory("WebApplication1FDLJavaModulo3PU", System.getProperties());
+
+                ProyectoJpaController proyectoJpaController = new ProyectoJpaController(factory);
+                PersonalJpaController personalJpaController = new PersonalJpaController(factory);
+                CatalogoJpaController catalogoJpaController = new CatalogoJpaController(factory);
+                
+                Personal personal=personalJpaController.findPersonal(request.getParameter("cmb_responsable"));
+                Catalogo catalogo= catalogoJpaController.findCatalogo(request.getParameter("cmb_catalogo"));
+
+                Proyecto proyecto = new Proyecto();
+                proyecto.setProCodigo(request.getParameter("txt_codigo"));
+                proyecto.setProNombre(request.getParameter("txt_nombre"));
+                proyecto.setProObservaciones(request.getParameter("txt_observaciones"));
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                Date d = sdf.parse("11/07/2015");
+                proyecto.setProFechareg(d);
+                proyecto.setPerIdentificacion(personal);
+                proyecto.setCatCodigo(catalogo);
+                
+                proyectoJpaController.create(proyecto);
+                factory.close();
+            }
             
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "cmb_responsable: {0}", request.getParameter("cmb_responsable"));
-            Logger.getLogger(this.getClass().getName()).log(Level.INFO, "cmb_catalogo: {0}", request.getParameter("cmb_catalogo"));
-
-            mysSqlConnect.ejecutarSP(parametrosIngresoProyecto, leerProperties.leerArchivoPropiedades("proyecto.spIngresoProyecto"));
+            
 
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -102,6 +142,8 @@ public class ServletIngresoProyecto extends HttpServlet {
             Logger.getLogger(ServletIngresoProyecto.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(ServletIngresoProyecto.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ServletIngresoProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -125,6 +167,8 @@ public class ServletIngresoProyecto extends HttpServlet {
         } catch (IllegalAccessException ex) {
             Logger.getLogger(ServletIngresoProyecto.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            Logger.getLogger(ServletIngresoProyecto.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(ServletIngresoProyecto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
