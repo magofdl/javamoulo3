@@ -35,7 +35,7 @@ public class Prueba {
         ProveedorJpaController  proveedorJpaController=new ProveedorJpaController(factory);
         Proveedor proveedor= new Proveedor();
         
-        proveedor.setPrvCodigo("PRV001");
+        proveedor.setPrvCodigo("PRV004");
         proveedor.setPrvDireccion("Lugo");
         proveedor.setPrvTelefono("3227398");
         proveedor.setPrvNombre("Laboratorio ARM");
@@ -47,7 +47,7 @@ public class Prueba {
                     em.persist(proveedor);
                     em.getTransaction().commit();
                     em.close();
-            
+            Logger.getLogger(Prueba.class.getName()).log(Level.INFO, "acabo", "acabo insertar");
         } catch (Exception ex) {
             Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
         }
